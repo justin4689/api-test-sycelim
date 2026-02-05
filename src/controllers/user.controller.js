@@ -17,6 +17,7 @@ const serializeUserDates = (u) => {
   if (!u) return u;
   return {
     ...u,
+    user_date: formatDateFR(u.user_date),
     user_creation: formatDateFR(u.user_creation),
   };
 };

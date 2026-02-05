@@ -17,27 +17,27 @@ const buildUser = (i) => {
   const prenom = faker.person.firstName(genre === "Homme" ? "male" : "female");
   const nom = faker.person.lastName();
 
+  const uniqueSuffix = `${faker.string.alphanumeric({ length: 8, casing: "lower" })}${i}`;
+
   const login = faker.internet
     .userName({ firstName: prenom, lastName: nom })
     .toLowerCase()
     .replace(/[^a-z0-9_\.]/g, "_")
-    .slice(0, 24);
+    .slice(0, 20);
 
-  const uniqueSuffix = `${Date.now()}_${i}`;
-
-  const email = faker.internet
-    .email({ firstName: prenom, lastName: nom })
-    .toLowerCase();
+  const userLogin = `${login}_${uniqueSuffix}`.slice(0, 30);
+  const userEmail = `${login}.${uniqueSuffix}@example.com`.slice(0, 64);
+  const userMobile = faker.phone.number("0#########");
 
   return {
     user_nom: nom,
     user_prenoms: prenom,
     user_genre: genre,
     user_date: faker.date.birthdate({ min: 18, max: 65, mode: "age" }),
-    user_login: `${login}_${uniqueSuffix}`,
+    user_login: userLogin,
     user_password: faker.internet.password({ length: 12 }),
-    user_email: `${uniqueSuffix}_${email}`,
-    user_mobile: faker.phone.number(),
+    user_email: userEmail,
+    user_mobile: userMobile,
     user_active: true,
   };
 };
