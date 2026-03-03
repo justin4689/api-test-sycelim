@@ -99,6 +99,12 @@ const main = async () => {
             { name: "user_active", label: "Actif", sortable: true },
           ],
         },
+
+        buttons: [
+          { label: "Nouveau" },
+          { label: "Lister" },
+          { label: "Rechercher" },
+        ],
       },
     },
   ];
