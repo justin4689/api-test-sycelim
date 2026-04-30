@@ -43,6 +43,15 @@ const getEntityConfigByName = async (req, res) => {
   }
 };
 
+const createEntityConfig = async (req, res) => {
+  try {
+    const entityConfig = await EntityConfig.create(req.body);
+    res.status(201).json(entityConfig);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const updateEntityConfig = async (req, res) => {
   try {
     const entityConfig = await EntityConfig.findByIdAndUpdate(
@@ -59,9 +68,23 @@ const updateEntityConfig = async (req, res) => {
   }
 };
 
+const deleteEntityConfig = async (req, res) => {
+  try {
+    const entityConfig = await EntityConfig.findByIdAndDelete(req.params.id);
+    if (!entityConfig) {
+      return res.status(404).json({ message: "Entity Config not found" });
+    }
+    res.json({ message: "Entity Config deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getEntityList,
   getEntityConfigById,
   getEntityConfigByName,
+  createEntityConfig,
   updateEntityConfig,
+  deleteEntityConfig,
 };
