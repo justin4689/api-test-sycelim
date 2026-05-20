@@ -13,8 +13,14 @@ const entityConfigSchema = new mongoose.Schema(
       required: false,
     },
 
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+      required: false,
+    },
+
     config: {
-      type: mongoose.Schema.Types.Mixed, // équivalent JSON
+      type: mongoose.Schema.Types.Mixed,
       required: true,
     },
   },

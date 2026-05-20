@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const userRoutes = require("./routes/user.routes");
 const configRoutes = require("./routes/config.routes");
+const categoryRoutes = require("./routes/category.routes");
 
 const app = express();
 
@@ -10,6 +11,7 @@ app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use("/api/users", userRoutes);
 app.use("/api/config", configRoutes);
+app.use("/api/categories", categoryRoutes);
 
 // Routes
 app.get("/", (req, res) => {

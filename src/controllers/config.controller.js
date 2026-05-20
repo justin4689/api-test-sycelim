@@ -2,11 +2,21 @@ const EntityConfig = require("../models/Config");
 
 const getEntityList = async (req, res) => {
   try {
-    const entities = await EntityConfig.find({}, { __v: 0 });
+    const filter = {};
+    if (req.query.category) {
+      filter.category = req.query.category;
+    }
+
+    const entities = await EntityConfig.find(filter, { __v: 0 }).populate(
+      "category",
+      "name label",
+    );
+
     const formattedEntities = entities.map((item) => ({
       id: item._id,
       label: item.label,
       entity: item.entity,
+      category: item.category ?? null,
       formColumns: item.config?.form?.columns || 0,
     }));
 
@@ -18,7 +28,9 @@ const getEntityList = async (req, res) => {
 
 const getEntityConfigById = async (req, res) => {
   try {
-    const entityConfig = await EntityConfig.findById(req.params.id, { __v: 0 });
+    const entityConfig = await EntityConfig.findById(req.params.id, {
+      __v: 0,
+    }).populate("category", "name label");
     if (!entityConfig) {
       return res.status(404).json({ message: "Entity Config not found" });
     }
@@ -33,7 +45,7 @@ const getEntityConfigByName = async (req, res) => {
     const entityConfig = await EntityConfig.findOne(
       { entity: req.params.name },
       { __v: 0 },
-    );
+    ).populate("category", "name label");
     if (!entityConfig) {
       return res.status(404).json({ message: "Entity Config not found" });
     }
